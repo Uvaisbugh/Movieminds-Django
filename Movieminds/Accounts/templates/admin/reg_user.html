@@ -1,0 +1,171 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block main %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+  #active {
+    border-radius: 50%;
+  }
+
+  #inactive {
+    border-radius: 50%;
+  }
+  #active:hover {
+    cursor: default !important;
+  }
+  #inactive:hover {
+    cursor: default !important;
+  }
+  img {
+    width: 60px;
+    height: 60px;
+  }
+  .table-responsive{
+    font-size:11px;
+  }
+  .material-symbols-outlined
+  {
+    font-size:14px;
+  }
+    td{
+    padding:0px;
+    }
+    .password{
+        display:none;
+    }
+    .text{
+      display:block;
+    }
+    .green-row{
+      color:white;
+      background-color:green!important;
+    }
+    .red-row{
+      color:white;
+      background-color:red!important;
+    }
+    .head-row{
+      color:white;
+      background-color:#165d5d!important;
+    }
+</style>
+<!-- Page-header start -->
+<div class="page-header">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <div class="page-header-title">
+                    <h5 class="m-b-10">Registered User</h5>
+                    <p class="m-b-0">Welcome to Gym Management System</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <ul class="breadcrumb-title">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'admin_home' %}"> <i class="fa fa-home"></i> </a>
+                    </li>
+                    <li class="breadcrumb-item"><a href="">Registered User</a>
+                    </li>
+                    <li class="breadcrumb-item"><a href="">Registered User</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page-header end -->
+
+<div class="pcoded-inner-content">
+    <!-- Main-body start -->
+    <div class="main-body">
+        <div class="page-wrapper">
+
+            <!-- Page body start -->
+            <div class="page-body">
+                <div class="row">
+
+
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-block">
+                                <div class="card-header">
+                                    <h5> Registered User</h5>
+                                    <div class="card-header-right">
+                                        <ul class="list-unstyled card-option">
+                                            <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                            <li><i class="fa fa-window-maximize full-card"></i></li>
+                                            <li><i class="fa fa-minus minimize-card"></i></li>
+                                            <li><i class="fa fa-refresh reload-card"></i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-block table-border-style">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Image URL</th>
+                                                <th>Username</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            {% for i in data %}
+                                            <tr>
+                                                <th scope="row">{{forloop.counter}}</th>
+                                                <td>{{i.user.first_name}} {{i.user.last_name}}</td>
+                                                 <td><span id="email-{{forloop.counter}}" class="password">{{i.user.username}}</span>
+                                                     <button type="button" class="btn btn-success" id="email-btn-{{forloop.counter}}" onclick="togglePassword('email-{{forloop.counter}}', this.id)"><i class="fa fa-eye"></i></button>
+                                                 </td>
+                                                 <td>
+                                                    <span id="mobile-{{forloop.counter}}" class="password">{{i.profile.url}}</span>
+                                                    <button type="button" class="btn btn-success" id="mobile-btn-{{forloop.counter}}" onclick="togglePassword('mobile-{{forloop.counter}}', this.id)"><i class="fa fa-eye"></i></button>
+                                                  </td>
+                                                <td>{{i.user.username}}</td>
+                                                <td>
+                                                    <a href="{% url 'delete_user' i.id %}"
+                                                       onclick="return confirm('Are you sure to Delete')"
+                                                       class="btn btn-danger">Delete</a>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main-body end -->
+    <div id="styleSelector"></div>
+</div>
+ <script>
+    function togglePassword(element_id, btnId){
+      var elementData = document.getElementById(element_id);
+      var elementBtn = document.getElementById(btnId);
+      console.log(elementData.classList.contains("password"))
+      if(elementData.classList.contains("password")){
+        elementData.classList.remove("password");
+        elementData.classList.add("text");
+        elementBtn.children[0].classList.add("fa-eye-slash");
+        elementBtn.children[0].classList.remove("fa-eye");
+      }
+      else{
+        elementData.classList.remove("text");
+        elementData.classList.add("password");
+        elementBtn.children[0].classList.remove("fa-eye-slash");
+        elementBtn.children[0].classList.add("fa-eye");
+      }
+    }
+  </script>
+{% endblock %}

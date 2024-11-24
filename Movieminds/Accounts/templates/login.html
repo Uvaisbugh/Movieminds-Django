@@ -1,0 +1,35 @@
+{% extends "netflix_main.html" %}
+{% load static %}
+{% block title %}Login{% endblock title %}
+{% block content %}
+<div class="form-wrapper ">
+    <h2>Login</h2>
+    <form action="{% url "login" %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+        <div class="form-control">
+            <input type="text" name="username" required placeholder="Enter your username">
+            
+        </div>
+        <div class="form-control">
+            <input type="password" name="password" required placeholder="Enter your password">
+           
+        </div>
+        <button type="submit">Log In</button>
+        <div class="form-help">
+            <div class="remember-me">
+                <input type="checkbox" id="remember-me" name="remember_me">
+                <label for="remember-me">Remember me</label>
+            </div>
+            <a href="#">Forgot your password?</a>
+        </div>
+    </form>
+    <p>New? <a href="{% url "register" %}">Register now</a></p>
+    {% for i in messages %}
+    <small class="error-message">
+        {{ i }}
+    </small>
+    {% endfor %}
+</div>
+
+{% endblock content %}

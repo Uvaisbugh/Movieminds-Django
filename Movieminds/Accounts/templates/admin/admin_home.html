@@ -1,0 +1,113 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block main %}
+
+<!-- Page-header start -->
+<div class="page-header">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <div class="page-header-title">
+                    <h5 class="m-b-10">Dashboard</h5>
+                    <p class="m-b-0">Welcome <b>{{user.username}}<b/></p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <ul class="breadcrumb-title">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'admin_home' %}"> <i class="fa fa-home"></i> </a>
+                    </li>
+                    <li class="breadcrumb-item"><a href="">Dashboard </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page-header end -->
+
+<div class="pcoded-inner-content">
+
+    <div class="main-body">
+        <div class="page-wrapper">
+
+            <div class="page-body">
+                <div class="row">
+
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card">
+                            <div class="card-block">
+                                <div class="row align-items-center">
+                                    <div class="col-12">
+                                        <h4 class="text-c-purple">{{totalcategories}}</h4>
+                                        <h6 class="text-muted m-b-0">Categories</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-c-purple">
+                                <div class="row align-items-center">
+                                    <div class="col-9">
+                                        <a class="text-white m-b-0" href="{% url "manage_categories" %}">View Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card">
+                            <div class="card-block">
+                                <div class="row align-items-center">
+                                    <div class="col-12">
+                                        <h4 class="text-c-green">{{totalmovies}}</h4>
+                                        <h6 class="text-muted m-b-0">Total Movies</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-c-green">
+                                <div class="row align-items-center">
+                                    <div class="col-9">
+                                        <a class="text-white m-b-0" href="{% url "manage_movies" %}">View Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card">
+                            <div class="card-block">
+                                <div class="row align-items-center">
+                                    <div class="col-12">
+                                        <h4 class="text-c-red">{{totalusers}}</h4>
+                                        <h6 class="text-muted m-b-0">Total Users</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-c-red">
+                                <div class="row align-items-center">
+                                    <div class="col-9">
+                                        <a class="text-white m-b-0" href="{% url "reg_user" %}">View Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                   
+
+                </div>
+            </div>
+
+        </div>
+        <div id="styleSelector"></div>
+    </div>
+</div>
+{% for i in messages %}
+<script>
+alert('{{i}}');
+</script>
+{% endfor %}
+{% endblock %}

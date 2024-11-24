@@ -1,0 +1,137 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block main %}
+<!-- Page-header start -->
+<div class="page-header">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <div class="page-header-title">
+                    <h5 class="m-b-10">Movie Category</h5>
+                    <p class="m-b-0">{% if messages %}
+                        <div class="messages">
+                            {% for message in messages %}
+                                <p class="{{ message.tags }}">{{ message }}</p>
+                            {% endfor %}</p>
+                            {% endif %}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <ul class="breadcrumb-title">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'admin_home' %}"> <i class="fa fa-home"></i> </a>
+                    </li>
+                    <li class="breadcrumb-item"><a href="">Manage Category</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page-header end -->
+
+<div class="pcoded-inner-content">
+    <!-- Main-body start -->
+    <div class="main-body">
+        <div class="page-wrapper">
+
+            <!-- Page body start -->
+            <div class="page-body">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <!-- Basic Form Inputs card start -->
+                        <div class="card">
+                            <div class="card-block">
+                                <h4 class="sub-title">Add Category</h4>
+                                <form method="POST" action="{% url "add_category" %}">
+                                    {% csrf_token %}
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label">Category Name</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="newcategory" placeholder="Enter Category Name"
+                                                   class="form-control" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10">
+                                            <input type="submit" class="btn btn-primary" value="Submit">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-7">
+                        <div class="card">
+                            <div class="card-block">
+                                <div class="card-header">
+                                    <h5>Category List</h5>
+                                    <div class="card-header-right">
+                                        <ul class="list-unstyled card-option">
+                                            
+                                            <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                            <li><i class="fa fa-window-maximize full-card"></i></li>
+                                            <li><i class="fa fa-minus minimize-card"></i></li>
+                                            <li><i class="fa fa-refresh reload-card"></i></li>
+                                        </ul>
+                                        
+                                    </div>
+                                </div>
+                                <div class="card-block table-border-style">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Category Name</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            {% for i in categories %}
+                                            <tr>
+                                                <th scope="row">{{forloop.counter}}</th>
+                                                <td>{{i.name}}</td>
+                                                <td><a href="{% url 'update_category' i.id %}" class="btn btn-primary">Edit</a> |
+                                                    <a href="{% url 'delete_category' i.id %}"
+                                                       onclick="return confirm('Are you sure to Delete')"
+                                                       class="btn btn-danger">Delete</a></td>
+                                            </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main-body end -->
+    <div id="styleSelector"></div>
+</div>
+
+{% if error ==  "no" %}
+<script>
+    alert('New Category has been Created');
+
+
+</script>
+{% endif %}
+
+{% if error == "yes" %}
+<script>
+    alert('Something Went Wrong.Try again.');
+
+
+</script>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "netflix_main.html" %}
+{% load static %}
+{% block title %}Register{% endblock title %}
+{% block content %}
+<div class="form-wrapper">
+    <h2>Register</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-control">
+            <label for="first_name">First Name:</label>
+            <input type="text" name="first_name" id="first_name" required>
+        </div>
+        <div class="form-control">
+            <label for="last_name">Last Name:</label>
+            <input type="text" name="last_name" id="last_name" required>
+        </div>
+        <div class="form-control">
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" required>
+        </div>
+        <div class="form-control">
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" required>
+        </div>
+        <div class="form-control">
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" required>
+        </div>
+        <div >
+        <div class="form-control">
+            <label for="confirm_password">Confirm Password:</label>
+            <input type="password" name="confirm_password" id="confirm_password" required>
+        </div>
+        <div>
+          <label for="profile">Profile Picture:</label>
+          <div class="form-control">
+              
+              <input type="file" name="profile" id="profile">
+              <small>Optional: Upload a profile picture (JPG, PNG).</small>
+          </div>
+        </div>
+        <div><br></div>
+        <button type="submit">Register</button>
+        
+    </form>
+    <p>Already have an account? <a href="{% url "login" %}">Login</a></p>
+    <center>
+    <small style="color: red;">
+        {% for i in messages %}
+        <small class="error-message">
+            {{ i }}
+        </small>
+        {% endfor %}
+    </small></center>
+</div>
+
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block main %}
+<!-- Page-header start -->
+<div class="page-header">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <div class="page-header-title">
+                    <h5 class="m-b-10">Manage Package</h5>
+                    <p class="m-b-0">Welcome to MovieMinds</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <ul class="breadcrumb-title">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'admin_home' %}"> <i class="fa fa-home"></i> </a>
+                    </li>
+                    <li class="breadcrumb-item"><a href="">Package</a>
+                    </li>
+                    <li class="breadcrumb-item"><a href="">Manage Package</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page-header end -->
+
+<div class="pcoded-inner-content">
+    <!-- Main-body start -->
+    <div class="main-body">
+        <div class="page-wrapper">
+
+            <!-- Page body start -->
+            <div class="page-body">
+                <div class="row">
+
+
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-block">
+                                <div class="card-header">
+                                    <h5>Package List</h5>
+                                    <div class="card-header-right">
+                                        <ul class="list-unstyled card-option">
+                                            <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                            <li><i class="fa fa-window-maximize full-card"></i></li>
+                                            <li><i class="fa fa-minus minimize-card"></i></li>
+                                            <li><i class="fa fa-refresh reload-card"></i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-block table-border-style">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Movie Name</th>
+                                                <th>Category</th>
+                                                <th>Release Date</th>
+                                                <th>Posted_by</th>
+                                                <th>Created Date</th>
+                                                <th> Slug</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            {% for i in movies %}
+                                            <tr>
+                                                <th scope="row">{{i.id}}</th>
+                                                <td>{{i.title}}</td>
+                                                <td>{{i.category}}</td>
+                                                 <td>{{i.release_date}}</td>
+                                                <td>{{i.posted_by}}</td>
+                                                <td>{{i.created}} </td>
+                                                
+                                                <td> {{i.slug}}
+                                                </td>
+                                                <td><a href="{% url "edit_movie" i.id %}"
+                                                       class="btn btn-primary">Edit</a> |
+                                                    <a href="{% url "movie_delete" i.id %}"
+                                                       onclick="return confirm('Are you sure to Delete')"
+                                                       class="btn btn-danger">Delete</a></td>
+                                            </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main-body end -->
+    <div id="styleSelector"></div>
+</div>
+
+
+
+{% endblock %}

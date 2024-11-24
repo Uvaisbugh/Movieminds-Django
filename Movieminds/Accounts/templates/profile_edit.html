@@ -1,0 +1,64 @@
+
+  {% extends 'main.html' %}
+<!--  -->
+
+{% block title %}Update -{{ movie.title }}{% endblock title %}
+<!--  -->
+{% block content %}
+<!--  -->
+{% include 'main_navbar.html' %}
+<main class="p-5">
+    <form
+    method="post"
+    enctype="multipart/form-data"
+    class="bg-white shadow-md rounded p-6 flex flex-col gap-4 w-full max-w-lg mx-auto"
+  >
+    {% csrf_token %}
+
+    <!-- Display errors if any -->
+    {% if messages %}
+      {% for message in messages %}
+        <p class="text-red-500">{{ message }}</p>
+      {% endfor %}
+    {% endif %}
+
+    <!-- Form fields -->
+    {% for field in form %}
+      <label class="font-semibold" for="{{ field.id_for_label }}">{{ field.label }}</label>
+      {{ field }}
+      {% if field.errors %}
+        <p class="text-red-500">{{ field.errors|join:", " }}</p>
+      {% endif %}
+    {% endfor %}
+
+    <!-- Profile Picture Preview -->
+    {% if user_profile.profile_picture %}
+      <div class="mt-4">
+        <img
+          src="{{ user_profile.profile_picture.url }}"
+          alt="Profile Picture"
+          class="w-20 h-20 rounded-full border"
+        />
+      </div>
+    {% endif %}
+
+    <!-- Submit -->
+    <div class="">
+        <input
+          type="submit"
+          value="Update"
+          class="py-2 px-5 bg-pgreen text-white font-semibold text-center rounded-xl w-full cursor-pointer"
+        />
+      </div>
+  </form>
+  <center>
+    <small style="color: red;">
+        {% for i in messages %}
+        <small class="error-message">
+            {{ i }}
+        </small>
+        {% endfor %}
+    </small></center>
+</div>
+</main>
+{% endblock content %}

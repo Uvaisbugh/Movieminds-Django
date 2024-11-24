@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Movie</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-5">
+        <h2 class="text-2xl font-bold mb-4">Edit Movie: {{ movie.title }}</h2>
+
+        <!-- Show success or error messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- Form to edit movie -->
+        <form method="post" enctype="multipart/form-data" class="bg-white shadow-md rounded p-5">
+            {% csrf_token %}
+            <div class="grid gap-4">
+                {% for field in form %}
+                    <div>
+                        <label for="{{ field.id_for_label }}" class="block font-medium">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <p class="text-red-600">{{ field.errors|join:', ' }}</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="mt-5">
+                <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">Save Changes</button>
+                <a href="{% url 'manage_movies' %}" class="text-blue-500 ml-4">Back to Movies</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
