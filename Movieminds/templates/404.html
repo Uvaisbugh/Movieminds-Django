@@ -1,0 +1,25 @@
+{% extends 'main.html' %}
+<!--  -->
+{% block title %} Movie Minds {% endblock title %}
+<!--  -->
+{% block content %}
+<!--  -->
+{% include 'main_navbar.html' %}
+<main class="text-porange flex flex-row justify-between gap-6 p-5">
+  <!-- Left Side: Sidebar -->
+  <div
+    class="hidden lg:flex flex-col gap-2 bg-pLightPurple shadow-md p-5 rounded-lg max-w-xs w-full max-h-[500px]"
+  >
+   <center>
+    <h3>Erorr 404</h3>
+    <p>Nothing</p>
+   </center>
+
+</div>
+</main>
+{% for i in messages %}
+<script>
+alert('{{i}}');
+</script>
+{% endfor %}
+{% endblock content %}
