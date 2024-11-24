@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
-from Moviesapp.models import *
-from accounts.models import UserProfile
+from .models import *
+from Accounts.models import UserProfile
 from django.db.models import Avg
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -11,7 +11,7 @@ from django.urls import reverse
 from django.shortcuts import get_object_or_404
 
 
-def home(request):
+def Home(request):
     query = request.GET.get('q', '').strip()
     sort = request.GET.get('sort', 'latest')
     category = request.GET.get('category', '').strip()
@@ -50,7 +50,7 @@ def home(request):
     return render(request, 'index.html',context )
 
 @login_required(login_url='login')
-def add_movie(request):
+def AddMovie(request):
     profile = UserProfile.objects.filter(user=request.user).first()
     if request.method == 'POST':
         form = AddMovieForm(request.POST, request.FILES)
@@ -70,7 +70,7 @@ def add_movie(request):
     return render(request, 'add-movie.html', {'profile': profile, 'form': form})
 
 @login_required(login_url='login')
-def movie_review_page(request, slug, _id):
+def ReviewPage(request, slug, _id):
     movie = get_object_or_404(Movie, slug=slug, id=_id)
     profile = UserProfile.objects.filter(user=request.user).first()
     comments = Comment.objects.filter(movie=movie)
@@ -95,7 +95,7 @@ def movie_review_page(request, slug, _id):
         
             Comment.objects.create(user=profile, movie=movie, content=comment)
             messages.success(request, "Review added successfully!")
-            return redirect('movie_review_page', slug=movie.slug, _id=movie.id)
+            return redirect('moviereview', slug=movie.slug, _id=movie.id)
         
     actors = movie.actors.all()
     rate = Rating.objects.filter(user=request.user, movie=movie).first()
@@ -115,7 +115,7 @@ def movie_review_page(request, slug, _id):
     )
 
 @login_required(login_url='login')
-def update_movie(request, movie_slug, movie_id):
+def UpdateMovie(request, movie_slug, movie_id):
     movie = get_object_or_404(Movie, slug=movie_slug, id=movie_id)
     profile = UserProfile.objects.filter(user=request.user).first()
     
@@ -126,7 +126,7 @@ def update_movie(request, movie_slug, movie_id):
         form = AddMovieForm(request.POST,request.FILES, instance=movie)
         if form.is_valid():
             form.save()
-            return redirect('movie_review_page', slug=movie.slug, _id=movie.id)
+            return redirect('moviereview', slug=movie.slug, _id=movie.id)
     else:
         form = AddMovieForm(instance=movie)
     return render(request, 'update_movie.html', {
@@ -136,7 +136,7 @@ def update_movie(request, movie_slug, movie_id):
         })
 
 @login_required(login_url='login')
-def update_comment(request, comment_id):
+def UpdateComment(request, comment_id):
     
     comment = get_object_or_404(Comment, id=comment_id)
 
@@ -149,7 +149,7 @@ def update_comment(request, comment_id):
         if form.is_valid():
             form.save()
             messages.success(request, "Comment updated successfully!")
-            return redirect('movie_review_page', comment.movie.slug, comment.movie.id)
+            return redirect('moviereview', comment.movie.slug, comment.movie.id)
         else:
             messages.error(request, "There was an error updating your comment. Please try again.")
     else:
@@ -160,13 +160,13 @@ def update_comment(request, comment_id):
     })
 
 @login_required(login_url='login')
-def delete_comment(request, comment_id):
+def DeleteComment(request, comment_id):
     comment = get_object_or_404(Comment, id=comment_id)
 
     if request.method == "POST":
         comment.delete()
         messages.success(request, "Comment deleted successfully!")
-        return redirect('movie_review_page', comment.movie.slug, comment.movie.id)
+        return redirect('moviereview', comment.movie.slug, comment.movie.id)
     return render(request, 'delete_comment.html', {'comment_id': comment_id, 'comment': comment})
 
 #sn

@@ -3,13 +3,13 @@ from django.utils.datastructures import MultiValueDictKeyError
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth .models import User
 from django.contrib.auth.decorators import login_required
-from accounts.models import UserProfile
-from Moviesapp.models import *
+from Accounts.models import UserProfile
+from Movies.models import *
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
-from Moviesapp.forms import AddMovieForm, ProfileEditForm , BioUpdateForm
+from Movies.forms import AddMovieForm, ProfileEditForm , BioUpdateForm
 
-def loginPage(request):
+def LoginPage(request):
     #redirect
     if request.user.is_authenticated:
         return redirect('home')
@@ -37,7 +37,7 @@ def loginPage(request):
     return render(request, 'login.html', )
 
 #logout
-def logoutPage(request):
+def LogoutPage(request):
     logout(request)
     return redirect('login')
 
@@ -93,7 +93,7 @@ def RegisterPage(request):
     return render(request, 'register.html')
 
 @login_required(login_url='login')
-def profile(request):
+def Profilepage(request):
     profile = UserProfile.objects.select_related('user').get(user=request.user)
     user_movies = Movie.objects.filter(posted_by=request.user).order_by('-created')
     user_reviews = Comment.objects.filter(user=profile).order_by('-created_at')
@@ -110,7 +110,7 @@ def profile(request):
     return render(request, 'profile.html', context)
 
 @login_required
-def profile_edit(request):
+def ProfileEdit(request):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)  
     
@@ -129,7 +129,7 @@ def profile_edit(request):
         form = ProfileEditForm(instance=user)
     return render(request, 'profile_edit.html', {'form': form, 'user_profile': user_profile})
 
-def admin_login(request):
+def AdminLogin(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -146,12 +146,12 @@ def admin_login(request):
             messages.error(request, "Invalid username or password.")
     return render(request, 'admin_login.html')
 
-def admin_logout(request):
+def AdminLogout(request):
     logout(request)
     return redirect('admin_login')
 
 @staff_member_required(login_url='admin_login')
-def admin_home(request):
+def AdminHome(request):
     user=request.user
     totalmovies = Movie.objects.all().count()
     totalcategories = Category.objects.all().count()
@@ -187,18 +187,18 @@ def ChangePassword(request):
     return render(request, 'admin/changePassword.html')
 
 @staff_member_required(login_url='admin_login')
-def manage_categories(request):
+def ManageCategories(request):
     categories = Category.objects.all()
     return render(request, 'admin/manage_categories.html', {'categories': categories})
 
 @staff_member_required(login_url='admin_login')
-def delete_category(request, category_id):
+def DeleteCategory(request, category_id):
     category = Category.objects.get(id=category_id)
     category.delete()
     return redirect('manage_categories')
 
 @staff_member_required(login_url='admin_login')
-def add_category(request):
+def AddCategory(request):
     if request.method == 'POST':
         name = request.POST.get('newcategory').strip()
         if not name:
@@ -214,7 +214,7 @@ def add_category(request):
     return render(request, 'admin/manage_categories.html')
 
 @staff_member_required(login_url='admin_login')
-def update_category(request, category_id):
+def UpdateCategory(request, category_id):
     category = Category.objects.get(id=category_id)
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -224,31 +224,31 @@ def update_category(request, category_id):
     return render(request, 'admin/update_category.html', {'category': category})
 
 @staff_member_required(login_url='admin_login')
-def reg_user(request):
+def RegisterUsers(request):
     data = UserProfile.objects.all()
     context = {
         'data': data}
     return render(request, 'admin/reg_user.html', locals())
 
 @staff_member_required(login_url='admin_login')
-def delete_user(request, user_id):
+def DeleteUser(request, user_id):
     user = UserProfile.objects.get(id=user_id)
     user.delete()
     return redirect('reg_user')
 
 @staff_member_required(login_url='admin_login')
-def manage_movies(request):
+def ManageMovies(request):
     movies = Movie.objects.all()
     return render(request, 'admin/manage_movies.html', {'movies': movies})
 
 @staff_member_required(login_url='admin_login')
-def movie_delete(request, movie_id):
+def DeleteMovie(request, movie_id):
     movie = Movie.objects.get(id=movie_id )
     movie.delete()
     return redirect('manage_movies')
 
 @staff_member_required(login_url='admin_login')
-def edit_movie(request, movie_id):
+def MovieEdit(request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)
     if request.method == 'POST':
         form = AddMovieForm(request.POST, request.FILES, instance=movie)
@@ -266,7 +266,7 @@ def edit_movie(request, movie_id):
     })
     
 @login_required
-def update_bio_view(request):
+def UpdateBio(request):
     user_profile, created = UserProfile.objects.get_or_create(user=request.user)
     if request.method == 'POST':
         form = BioUpdateForm(request.POST, instance=user_profile)
@@ -280,7 +280,7 @@ def update_bio_view(request):
         form = BioUpdateForm(instance=user_profile)
     return render(request, 'update_bio.html', {'form': form})
 
-def add_to_watchlist(request, movie_id):
+def Addtowatchlist(request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)
     user=UserProfile.objects.get(user=request.user)
     user.watchlist.add(movie)
