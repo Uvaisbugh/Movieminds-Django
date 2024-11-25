@@ -52,9 +52,14 @@
       {% if request.user == movie.posted_by %}
       <a
         href="{% url 'update_movie' movie.slug movie.id %}"
-        class="py-2 px-5 bg-pgreen rounded w-fit text-white"
+        class="py-1 px-3 bg-pgreen rounded w-fit text-white"
         >Edit Movie</a
       >
+      <a
+      href="{% url 'delete_movie' movie.slug movie.id %}"
+      class="py-1 px-3 bg-pgreen rounded w-fit text-white"
+      >Delete</a
+    >
       {% endif %}
       <a
         href="{% url 'add_to_watchlist' movie.id %}"

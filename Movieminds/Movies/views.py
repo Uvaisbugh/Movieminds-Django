@@ -135,6 +135,17 @@ def UpdateMovie(request, movie_slug, movie_id):
         'form': form
         })
 
+def DeleteMovie(request, movie_slug, movie_id):
+    movie = get_object_or_404(Movie, slug=movie_slug, id=movie_id)
+    
+    if movie.posted_by != request.user:
+        return redirect('home')
+    
+    if request.method == 'POST':
+        movie.delete()
+        return redirect('home')
+    return render(request, 'delete_movie.html', {'movie': movie})
+
 @login_required(login_url='login')
 def UpdateComment(request, comment_id):
     
