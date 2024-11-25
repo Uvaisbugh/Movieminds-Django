@@ -10,6 +10,7 @@ urlpatterns = [
     path('profile/', views.Profilepage, name='profile'),
     path('bio/', views.UpdateBio, name='bio_update'),
     path('add_to_watchlist/<int:movie_id>', views.Addtowatchlist, name='add_to_watchlist'),
+    path('remove_from_watchlist/<int:movie_id>', views.Removefromwatchlist, name='remove_from_watchlist'),
     #admin
     path('admin_login/', views.AdminLogin, name='admin_login'),
     path('admin_logout', views.AdminLogout, name='admin_logout'),

@@ -286,4 +286,10 @@ def Addtowatchlist(request, movie_id):
     user.watchlist.add(movie)
     return redirect(request.META.get('HTTP_REFERER', 'watchlist'))
 
+def Removefromwatchlist(request, movie_id):
+    movie = get_object_or_404(Movie, id=movie_id)
+    user=UserProfile.objects.get(user=request.user)
+    user.watchlist.remove(movie)
+    return redirect(request.META.get('HTTP_REFERER', 'watchlist'))
+
 #sn

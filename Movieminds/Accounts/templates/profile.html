@@ -83,8 +83,12 @@
           {% for movie in profile.watchlist.all %}
           <a
             href="{% url 'moviereview' movie.slug movie.id %}">
-            -{{ movie.title }} <br>
+            -{{ movie.title }} 
           </a>
+          <a
+          href="{% url 'remove_from_watchlist' movie.id %}">
+          ❌<br>
+        </a>
               
             {% endfor %}
           
