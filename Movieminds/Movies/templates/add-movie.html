@@ -12,7 +12,7 @@
 </header>
 <main class="p-2">
   <h1 class="text-pgreen text-xl font-bold mb-4 text-center">Add Movies</h1>
-    
+  <a class="bg-pgreen p-2 rounded text-white w-fit" href="{{ request.META.HTTP_REFERER }}">Go Back</a>
     <!-- Movie Form -->
     <form method="POST" enctype="multipart/form-data" class="flex flex-col mx-auto w-fuu bg-pLightPurple text-black p-5 rounded-lg shadow-sm lg:w-1/2">
       {% csrf_token %}
